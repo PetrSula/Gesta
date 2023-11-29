@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:my_app_2/first_login/choose_sex.dart';
 import 'package:my_app_2/screens/home/page/first_login.dart';
 import 'package:my_app_2/screens/home/home.dart';
 import 'package:my_app_2/screens/home/model/userSetting.dart';
 import 'package:my_app_2/screens/home/service/userSetting_service.dart';
 
+import '../../first_login/welcome.dart';
 import '../../models/user.dart';
 import '../../services/auth.dart';
 import '../../shared/loading.dart';
@@ -51,11 +53,11 @@ class _Home_switcherState extends State<Home_switcher> {
       print('Error fetching user data: $error');
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     if (numberOfNotifications == 0) {
-      return Home();
+      return Choose_sex();
     } else if (numberOfNotifications > 0) {
       return User_Setting();
     } else {
