@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app_2/first_login/second_text.dart';
 import 'package:my_app_2/first_login/welcome.dart';
 
 class Choose_sex extends StatefulWidget {
@@ -10,6 +12,16 @@ class Choose_sex extends StatefulWidget {
 
 class _Choose_sexState extends State<Choose_sex> {
   String? _selectedGender;
+
+ void NextScreen() {
+    Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => Second_Text(),
+        ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +77,12 @@ class _Choose_sexState extends State<Choose_sex> {
                               size: 50.0, // Adjust the icon size
                               color: Colors.blue),
                           onPressed: ()  {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                builder: (context) => Welcome(),
-                              ),
-                            );
+                            Navigator.pop( context);
+                            //     context,
+                            //     MaterialPageRoute(
+                            //     builder: (context) => Welcome(),
+                            //   ),
+                            // );
                           },
                         ),
                         IconButton(
@@ -78,9 +90,7 @@ class _Choose_sexState extends State<Choose_sex> {
                               Icons.arrow_forward,
                               size: 50.0, // Adjust the icon size
                               color: Colors.blue), // Adjust the icon colo),
-                          onPressed: () {
-                            // Handle right arrow button press
-                          },
+                          onPressed: NextScreen,
                         ),
                       ],
                     ),

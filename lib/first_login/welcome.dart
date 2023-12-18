@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app_2/first_login/choose_sex.dart';
 
@@ -14,7 +15,7 @@ class _WelcomeState extends State<Welcome> {
   void onIconClicked() {
     Navigator.push(
         context,
-        MaterialPageRoute(
+        CupertinoPageRoute(
         builder: (context) => Choose_sex(),
         ),
     );

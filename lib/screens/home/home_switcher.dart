@@ -57,7 +57,7 @@ class _Home_switcherState extends State<Home_switcher> {
   @override
   Widget build(BuildContext context) {
     if (numberOfNotifications == 0) {
-      return Choose_sex();
+      return Welcome();
     } else if (numberOfNotifications > 0) {
       return User_Setting();
     } else {
