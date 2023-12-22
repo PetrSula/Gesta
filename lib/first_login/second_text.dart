@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app_2/first_login/name.dart';
 
+import '../models/partner.dart';
+
 class Second_Text extends StatelessWidget {
-  const Second_Text({Key? key});
+  final PartnerData partnerData;
+
+  Second_Text({required this.partnerData});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +18,10 @@ class Second_Text extends StatelessWidget {
           builder: (context) => Name(),
         ),
       );
+    }
+    void goBackWithData() {
+      // Pass partnerData back to the previous screen when navigating back
+      Navigator.pop(context, partnerData);
     }
 
     return Scaffold(
@@ -48,9 +56,7 @@ class Second_Text extends StatelessWidget {
                         size: 50.0, // Adjust the icon size
                         color: Colors.blue,
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: goBackWithData,
                     ),
                     IconButton(
                       icon: Icon(

@@ -7,16 +7,16 @@ part of 'userSetting.dart';
 // **************************************************************************
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
-      anniversary: (json['anniversary'] as Timestamp).toDate(),
-      birthday: (json['birthday'] as Timestamp).toDate(),
+      anniversary: UserData._timestampToDateTime(json['birthday'] as Timestamp),
+      birthday: UserData._timestampToDateTime(json['anniversary'] as Timestamp),
       frequency: json['frequency'] as int,
       gender: json['gender'] as String,
       userName: json['userName'] as String,
     );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
-      'anniversary': instance.anniversary,
-      'birthday': instance.birthday,
+      'birthday': UserData._dateTimeToTimestamp(instance.anniversary),
+      'anniversary': UserData._dateTimeToTimestamp(instance.birthday),
       'frequency': instance.frequency,
       'gender': instance.gender,
       'userName': instance.userName,

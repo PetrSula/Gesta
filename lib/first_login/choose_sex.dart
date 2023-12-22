@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app_2/first_login/second_text.dart';
 import 'package:my_app_2/first_login/welcome.dart';
+import 'package:my_app_2/models/partner.dart';
 
 class Choose_sex extends StatefulWidget {
   const Choose_sex({super.key});
@@ -12,14 +13,32 @@ class Choose_sex extends StatefulWidget {
 
 class _Choose_sexState extends State<Choose_sex> {
   String? _selectedGender;
+  late PartnerData _partnerData;
 
  void NextScreen() {
-    Navigator.push(
-        context,
-        CupertinoPageRoute(
-          builder: (context) => Second_Text(),
-        ),
-    );
+   _partnerData = PartnerData(
+     gender: _selectedGender ?? '', // Assign the selected gender to PartnerData
+     name: '', // Add other fields as needed, initialized to empty for now
+     nickname: '',
+     nameday: null,
+     anniversary: null,
+     importantDay: null,
+   );
+
+   Navigator.push(
+     context,
+     CupertinoPageRoute(
+       builder: (context) => Second_Text(partnerData: _partnerData),
+     ),
+   ).then((returnedData) {
+     if (returnedData != null) {
+       PartnerData updatedPartnerData = returnedData as PartnerData;
+       _partnerData = updatedPartnerData;
+       if (_partnerData.gender.isNotEmpty) {
+         _selectedGender = _partnerData.gender;
+       }
+     }
+   });
   }
 
 
@@ -56,11 +75,14 @@ class _Choose_sexState extends State<Choose_sex> {
                 hint: Text('Select gender'),
               ),
               SizedBox(height: 20.0), // Adding space between dropdown and text
-              Text(
-                'Your additional text here',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut elit non nisi. Nullam nec fermentum elit. Integer luctus augue a libero dictum, vel suscipit ligula laoreet. Morbi varius, justo a dictum varius, justo mi eleifend ligula',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               Expanded(
