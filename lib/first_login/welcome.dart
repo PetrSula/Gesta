@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app_2/first_login/choose_sex.dart';
 
+import '../models/partner.dart';
+
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
 
@@ -11,13 +13,23 @@ class Welcome extends StatefulWidget {
 
 
 class _WelcomeState extends State<Welcome> {
+  late PartnerData _partnerData;
 
   void onIconClicked() {
+    _partnerData = PartnerData(
+      gender: '', // Assign the selected gender to PartnerData
+      name: '', // Add other fields as needed, initialized to empty for now
+      nickname: '',
+      nameDay: null,
+      anniversary: null,
+      importantDay: null,
+    );
+
     Navigator.push(
-        context,
-        CupertinoPageRoute(
-        builder: (context) => Choose_sex(),
-        ),
+      context,
+      CupertinoPageRoute(
+        builder: (context) => Choose_sex(partnerData: _partnerData), // Correct the parameter name here
+      ),
     );
   }
 

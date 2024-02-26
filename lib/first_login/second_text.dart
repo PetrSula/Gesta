@@ -7,6 +7,7 @@ import '../models/partner.dart';
 class Second_Text extends StatelessWidget {
   final PartnerData partnerData;
 
+
   Second_Text({required this.partnerData});
 
   @override
@@ -15,7 +16,7 @@ class Second_Text extends StatelessWidget {
       Navigator.push(
         context,
         CupertinoPageRoute(
-          builder: (context) => Name(),
+          builder: (context) => Name(partnerData),
         ),
       );
     }

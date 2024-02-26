@@ -5,7 +5,9 @@ import 'package:my_app_2/first_login/welcome.dart';
 import 'package:my_app_2/models/partner.dart';
 
 class Choose_sex extends StatefulWidget {
-  const Choose_sex({super.key});
+  final PartnerData partnerData;
+
+  const Choose_sex({Key? key, required this.partnerData}) : super(key: key);
 
   @override
   State<Choose_sex> createState() => _Choose_sexState();
@@ -13,34 +15,24 @@ class Choose_sex extends StatefulWidget {
 
 class _Choose_sexState extends State<Choose_sex> {
   String? _selectedGender;
-  late PartnerData _partnerData;
 
  void NextScreen() {
-   _partnerData = PartnerData(
-     gender: _selectedGender ?? '', // Assign the selected gender to PartnerData
-     name: '', // Add other fields as needed, initialized to empty for now
-     nickname: '',
-     nameday: null,
-     anniversary: null,
-     importantDay: null,
-   );
+   widget.partnerData.gender = _selectedGender ?? '';
 
    Navigator.push(
      context,
      CupertinoPageRoute(
-       builder: (context) => Second_Text(partnerData: _partnerData),
+       builder: (context) => Second_Text(partnerData: widget.partnerData),
      ),
    ).then((returnedData) {
      if (returnedData != null) {
        PartnerData updatedPartnerData = returnedData as PartnerData;
-       _partnerData = updatedPartnerData;
-       if (_partnerData.gender.isNotEmpty) {
-         _selectedGender = _partnerData.gender;
+       if (updatedPartnerData.gender.isNotEmpty) {
+         _selectedGender = updatedPartnerData.gender;
        }
      }
    });
   }
-
 
   @override
   Widget build(BuildContext context) {

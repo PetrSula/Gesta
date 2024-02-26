@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app_2/first_login/Frequenci.dart';
 
+import '../models/partner.dart';
+
 class Birthday extends StatefulWidget {
-  const Birthday({Key? key}) : super(key: key);
+  final PartnerData partnerData;
+
+  const Birthday({Key? key, required this.partnerData}) : super(key: key);
 
   @override
   State<Birthday> createState() => _BirthdayState();
@@ -12,6 +16,16 @@ class Birthday extends StatefulWidget {
 class _BirthdayState extends State<Birthday> {
   DateTime? partnerBirthday;
   bool recommendLater = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.partnerData.birtDay != null) {
+      setState(() {
+        partnerBirthday = widget.partnerData.birtDay;
+      });
+    }
+  }
 
   void setPartnerBirthday(DateTime selectedDate) {
     setState(() {
@@ -25,8 +39,17 @@ class _BirthdayState extends State<Birthday> {
     Navigator.push(
       context,
       CupertinoPageRoute(
-          builder: (context) => Frequency()),
+          builder: (context) => Frequency(partnerData: widget.partnerData)),
     );
+  }
+
+  void goBackWithData() {
+
+    if (partnerBirthday != null){
+      widget.partnerData.birtDay = partnerBirthday;
+    }
+    // Pass partnerData back to the previous screen when navigating back
+    Navigator.pop(context, widget.partnerData);
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -140,9 +163,7 @@ class _BirthdayState extends State<Birthday> {
                 size: 50.0,
                 color: Colors.blue,
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: goBackWithData
             ),
             IconButton(
               icon: Icon(

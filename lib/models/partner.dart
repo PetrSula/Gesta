@@ -5,15 +5,16 @@ class PartnerData {
   String gender;
   String name;
   String nickname;
-  DateTime? nameday;
+  DateTime? nameDay;
   DateTime? anniversary;
+  DateTime? birtDay;
   DateTime? importantDay;
 
   PartnerData({
     required this.gender,
     required this.name,
     required this.nickname,
-    required this.nameday,
+    required this.nameDay,
     required this.anniversary,
     required this.importantDay,
   });
@@ -29,7 +30,7 @@ PartnerData _$PartnerDataFromJson(Map<String, dynamic> json) {
     gender: json['gender'] as String,
     name: json['name'] as String,
     nickname: json['nickname'] as String,
-    nameday: DateTime.parse(json['nameday'] as String),
+    nameDay: DateTime.parse(json['nameday'] as String),
     anniversary: DateTime.parse(json['anniversary'] as String),
     importantDay: DateTime.parse(json['importantDay'] as String),
   );

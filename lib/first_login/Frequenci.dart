@@ -1,7 +1,15 @@
+import 'dart:collection';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app_2/models/Event.dart';
+
+import '../models/partner.dart';
+import 'Calendar.dart';
 
 class Frequency extends StatefulWidget {
-  const Frequency({super.key});
+  final PartnerData partnerData;
+  const Frequency({Key? key, required this.partnerData}) : super(key: key);
 
   @override
   State<Frequency> createState() => _FrequencyState();
@@ -9,6 +17,31 @@ class Frequency extends StatefulWidget {
 
 class _FrequencyState extends State<Frequency> {
   int frequency = 2;
+
+  void NextScreen() {
+    // LinkedHashMap<DateTime, List<Event>> initialEvent = LinkedHashMap();
+    // // Adding key-value pairs
+    // initialEvent[DateTime(2024, 1, 1)] = [Event('New Year')];
+    // initialEvent[DateTime(2024, 2, 14)]= [Event('Valentine\'s Day')];
+
+    // Output:
+    // one: 1
+    // two: 2
+    // three: 3
+    Map<DateTime, List<Event>> initialEvents = {
+      DateTime.utc(2024, 1, 1): [Event('New Year')],
+      DateTime.utc(2024, 2, 14): [Event('Valentine\'s Day')],
+      DateTime.utc(2024, 2, 22): [Event('Special Day')],
+      DateTime.utc(2024, 1, 8): [Event('Birthday')],
+    };
+
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => Calendar(initialEvents: initialEvents),
+      ),
+    );
+  }
 
   void increaseFrequency() {
     setState(() {
@@ -24,6 +57,9 @@ class _FrequencyState extends State<Frequency> {
         frequency--;
       }
     });
+  }
+  void goBackWithData(){
+    Navigator.pop(context, widget.partnerData);
   }
 
   @override
@@ -99,9 +135,7 @@ class _FrequencyState extends State<Frequency> {
                 size: 50.0,
                 color: Colors.blue,
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: goBackWithData
             ),
             IconButton(
               icon: Icon(
@@ -109,10 +143,7 @@ class _FrequencyState extends State<Frequency> {
                 size: 50.0,
                 color: Colors.blue,
               ),
-              onPressed: () {
-                // Call the function to navigate to the next screen
-                // nextScreen(context);
-              },
+              onPressed: NextScreen,
             ),
           ],
         ),
