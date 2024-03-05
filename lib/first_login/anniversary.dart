@@ -1,53 +1,51 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app_2/first_login/Frequenci.dart';
-import 'package:my_app_2/first_login/anniversary.dart';
 
 import '../models/partner.dart';
+import 'importantEvents.dart';
 
-class Birthday extends StatefulWidget {
+class Anniversary extends StatefulWidget {
   final PartnerData partnerData;
 
-  const Birthday({Key? key, required this.partnerData}) : super(key: key);
+  const Anniversary({Key? key, required this.partnerData}) : super(key: key);
 
   @override
-  State<Birthday> createState() => _BirthdayState();
+  State<Anniversary> createState() => _AnniversaryState();
 }
 
-class _BirthdayState extends State<Birthday> {
-  DateTime? partnerBirthday;
+class _AnniversaryState extends State<Anniversary> {
+  DateTime? partnerAnniversary;
   bool recommendLater = false;
 
   @override
   void initState() {
     super.initState();
-    if (widget.partnerData.birtDay != null) {
+    if (widget.partnerData.anniversary != null) {
       setState(() {
-        partnerBirthday = widget.partnerData.birtDay;
+        partnerAnniversary = widget.partnerData.anniversary;
       });
     }
   }
 
-  void setPartnerBirthday(DateTime selectedDate) {
+  void setPartnerAnniversary(DateTime selectedDate) {
     setState(() {
-      partnerBirthday = selectedDate;
+      partnerAnniversary = selectedDate;
     });
   }
 
   void nextScreen(BuildContext context) {
     // Navigate to the next screen
-    Example:
     Navigator.push(
       context,
       CupertinoPageRoute(
-          builder: (context) => Anniversary(partnerData: widget.partnerData)),
+          builder: (context) => ImportantEvents(partnerData: widget.partnerData)),
     );
   }
 
   void goBackWithData() {
-
-    if (partnerBirthday != null){
-      widget.partnerData.birtDay = partnerBirthday;
+    if (partnerAnniversary != null) {
+      widget.partnerData.anniversary = partnerAnniversary;
     }
     // Pass partnerData back to the previous screen when navigating back
     Navigator.pop(context, widget.partnerData);
@@ -63,7 +61,7 @@ class _BirthdayState extends State<Birthday> {
 
     if (picked != null) {
       setState(() {
-        partnerBirthday = picked;
+        partnerAnniversary = picked;
       });
     }
   }
@@ -72,7 +70,7 @@ class _BirthdayState extends State<Birthday> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Choose Birthday of Partner'),
+        title: Text('Choose Anniversary of Partner'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -80,7 +78,7 @@ class _BirthdayState extends State<Birthday> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Choose Partner\'s Birthday:',
+              'Choose Partner\'s Anniversary:',
               style: TextStyle(fontSize: 18.0),
             ),
             SizedBox(height: 8.0),
@@ -101,9 +99,9 @@ class _BirthdayState extends State<Birthday> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
-                            partnerBirthday != null
-                                ? "${partnerBirthday!.day}/${partnerBirthday!.month}/${partnerBirthday!.year}"
-                                : "Select Birthday",
+                            partnerAnniversary != null
+                                ? "${partnerAnniversary!.day}/${partnerAnniversary!.month}/${partnerAnniversary!.year}"
+                                : "Select Anniversary",
                           ),
                         ),
                       ),
@@ -164,7 +162,7 @@ class _BirthdayState extends State<Birthday> {
                 size: 50.0,
                 color: Colors.blue,
               ),
-              onPressed: goBackWithData
+              onPressed: goBackWithData,
             ),
             IconButton(
               icon: Icon(

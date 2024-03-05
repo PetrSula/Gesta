@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app_2/first_login/birthday.dart';
 
 import '../models/partner.dart';
+// TODO - přidat odhlídání na připomenutí datumu svátku
 
 class Name extends StatefulWidget {
   final PartnerData partnerData; // Accept partnerData in the constructor
@@ -18,6 +19,8 @@ class _NameState extends State<Name> {
   DateTime? partnerNameDay;
   bool dontCelebrateNameDay = false;
   bool dontKnowDate = false;
+  String? dateErrorMessage;
+  AutovalidateMode _autovalidateMode = AutovalidateMode.onUserInteraction;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
@@ -42,14 +45,44 @@ class _NameState extends State<Name> {
       });
     }
   }
-
+  bool checkParameters() {
+    // Check if the name field is empty
+    bool missParametr = false;
+    _autovalidateMode= AutovalidateMode.always;
+    // if (nameController.text.isEmpty && nicknameController.text.isEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: Text('Please enter your name or nickname.'),
+    //       backgroundColor: Colors.red,
+    //     ),
+    //   );
+    //   _autovalidateMode= AutovalidateMode.always;
+    //   missParametr = true;
+    // }
+    // if (partnerNameDay == null && !( dontKnowDate || dontCelebrateNameDay) ){
+    //   missParametr = true;
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: Text('Please enter name date.'),
+    //       backgroundColor: Colors.red,
+    //     ),
+    //   );
+    //   setState(() {
+    //     dateErrorMessage = 'Please select a date';
+    //   });
+    // }
+    return missParametr;
+  }
 
   void nextScreen(BuildContext context) {
+    // zkontrolovat zda jsou splněny podmínky pro přejití na další obrazovku
+    if (checkParameters()){
+      return;
+    }
     widget.partnerData.name = nameController.text;
     widget.partnerData.nickname = nicknameController.text;
-    if (partnerNameDay != null) {
-      widget.partnerData.nameDay = partnerNameDay;
-    }
+    // zkontrolovat zda jsou splněny podmínky pro přejití na další obrazovku
+
     // Navigate to the next screen
     Example:
     Navigator.push(
@@ -156,6 +189,17 @@ class _NameState extends State<Name> {
         );
       },
     );
+
+    if (partnerNameDay == null) {
+      setState(() {
+        dateErrorMessage = 'Please select a date';
+      });
+    } else {
+      setState(() {
+        dateErrorMessage = null;
+      });
+    }
+
   }
 
   @override
@@ -184,10 +228,13 @@ class _NameState extends State<Name> {
                     hintText: 'Enter your name',
                   ),
                   // Validate the field to ensure it's not empty
+                  autovalidateMode: _autovalidateMode,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
+                    if (value == null || value.isEmpty ){
+                      if (nicknameController.text.isEmpty || nicknameController.text == null) {
+                        return 'Please enter your name or nickname';
+                      }
+                  }
                     return null;
                   },
                 ),
@@ -210,29 +257,50 @@ class _NameState extends State<Name> {
                   style: TextStyle(fontSize: 18.0),
                 ),
                 SizedBox(height: 8.0),
-                Row(
+                Column(
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Name-day: "),
-                          Text(
-                            partnerNameDay != null
-                                ? "${partnerNameDay!.day}/${partnerNameDay!.month}/${partnerNameDay!.year}"
-                                : "Name-day",
+                    // Display the error message if it exists
+                    if (dateErrorMessage != null)
+                      Text(
+                        dateErrorMessage!,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 50.0,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Center(
+                              child: InkWell(
+                                onTap: () {
+                                  _selectDate(context);
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: Text(
+                                    partnerNameDay != null
+                                        ? "${partnerNameDay!.day}/${partnerNameDay!.month}/${partnerNameDay!.year}"
+                                        : "Select Name day",
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                            icon: Icon(Icons.calendar_today),
+                            onPressed: () {
+                              _selectDate(context);
+                            },
                           ),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: IconButton(
-                        icon: Icon(Icons.calendar_today),
-                        onPressed: () {
-                          _selectDate(context);
-                        },
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
