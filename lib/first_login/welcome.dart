@@ -21,8 +21,9 @@ class _WelcomeState extends State<Welcome> {
       name: '', // Add other fields as needed, initialized to empty for now
       nickname: '',
       nameDay: null,
+      birthDay: null,
       anniversary: null,
-      importantDay: null,
+      importantEvents: [],
     );
 
     Navigator.push(

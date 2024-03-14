@@ -16,10 +16,7 @@ class ImportantEvents extends StatefulWidget {
 }
 
 class _ImportantEventsState extends State<ImportantEvents> {
-  List<ImportatntEvent> events = [
-    ImportatntEvent(nameOfEvent: "Event 1", dateOfEvent: DateTime(2024, 3, 10)),
-    ImportatntEvent(nameOfEvent: "Event 2", dateOfEvent: DateTime(2024, 3, 15)),
-    ImportatntEvent(nameOfEvent: "Event 5", dateOfEvent: DateTime(2024, 3, 20)),
+  List<ImportantEvent> events = [
   ];
   DateTime? eventDate;
   TextEditingController eventNameController = TextEditingController();
@@ -31,6 +28,8 @@ class _ImportantEventsState extends State<ImportantEvents> {
   @override
   void initState() {
     super.initState();
+    events = widget.partnerData.importantEvents ?? [];
+    print(events);
   }
 
   void removeEvent(int index) {
@@ -49,6 +48,8 @@ class _ImportantEventsState extends State<ImportantEvents> {
   }
 
   void goBackWithData() {
+    if (events.isNotEmpty){
+    widget.partnerData.importantEvents = events;}
     // widget.partnerData.importantEvents = events;
     // Pass partnerData back to the previous screen when navigating back
     Navigator.pop(context, widget.partnerData);
@@ -108,8 +109,8 @@ class _ImportantEventsState extends State<ImportantEvents> {
 
     setState(() {
       // Update the name and date of the selected event
-      events[selectedEventIndex].nameOfEvent = eventNameController.text;
-      events[selectedEventIndex].dateOfEvent = eventDate!;
+      events[selectedEventIndex].eventName = eventNameController.text;
+      events[selectedEventIndex].eventDate = eventDate!;
     });
 
     // Reset input fields
@@ -118,10 +119,10 @@ class _ImportantEventsState extends State<ImportantEvents> {
 
   void _onEditEvent(int index) {
     selectedEventIndex = index;
-    ImportatntEvent event = events[index];
-    eventNameController.text = event.nameOfEvent;
+    ImportantEvent event = events[index];
+    eventNameController.text = event.eventName;
     setState(() {
-      eventDate = event.dateOfEvent;
+      eventDate = event.eventDate;
       _isEditing = true;
       _existDate = true;
     });
@@ -144,9 +145,9 @@ class _ImportantEventsState extends State<ImportantEvents> {
       }
       // Add the event to the list
       setState(() {
-        events.add(ImportatntEvent(
-          nameOfEvent: eventNameController.text,
-          dateOfEvent: eventDate!,
+        events.add(ImportantEvent(
+          eventName: eventNameController.text,
+          eventDate: eventDate!,
         ));
       });
       _clearInputFields();

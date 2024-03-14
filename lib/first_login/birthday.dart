@@ -21,9 +21,9 @@ class _BirthdayState extends State<Birthday> {
   @override
   void initState() {
     super.initState();
-    if (widget.partnerData.birtDay != null) {
+    if (widget.partnerData.birthDay != null) {
       setState(() {
-        partnerBirthday = widget.partnerData.birtDay;
+        partnerBirthday = widget.partnerData.birthDay;
       });
     }
   }
@@ -47,7 +47,7 @@ class _BirthdayState extends State<Birthday> {
   void goBackWithData() {
 
     if (partnerBirthday != null){
-      widget.partnerData.birtDay = partnerBirthday;
+      widget.partnerData.birthDay = partnerBirthday;
     }
     // Pass partnerData back to the previous screen when navigating back
     Navigator.pop(context, widget.partnerData);

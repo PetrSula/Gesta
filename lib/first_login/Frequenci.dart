@@ -2,7 +2,10 @@ import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app_2/algorytm/random.dart';
+import 'package:my_app_2/first_login/eventListScreen.dart';
 import 'package:my_app_2/models/Event.dart';
+import 'package:my_app_2/models/importantEvent.dart';
 
 import '../models/partner.dart';
 import 'Calendar.dart';
@@ -19,15 +22,11 @@ class _FrequencyState extends State<Frequency> {
   int frequency = 2;
 
   void NextScreen() {
-    // LinkedHashMap<DateTime, List<Event>> initialEvent = LinkedHashMap();
-    // // Adding key-value pairs
-    // initialEvent[DateTime(2024, 1, 1)] = [Event('New Year')];
-    // initialEvent[DateTime(2024, 2, 14)]= [Event('Valentine\'s Day')];
+    RandomDateGenerator algorythm = RandomDateGenerator(
+        numberOfDates: frequency);
+    List<ImportantEvent> listOfEvents = algorythm.generateRandomDates();
+    this.widget.partnerData.importantEvents?.addAll(listOfEvents);
 
-    // Output:
-    // one: 1
-    // two: 2
-    // three: 3
     Map<DateTime, List<Event>> initialEvents = {
       DateTime.utc(2024, 1, 1): [Event('New Year')],
       DateTime.utc(2024, 2, 14): [Event('Valentine\'s Day')],
@@ -38,7 +37,7 @@ class _FrequencyState extends State<Frequency> {
     Navigator.push(
       context,
       CupertinoPageRoute(
-        builder: (context) => Calendar(initialEvents: initialEvents),
+        builder: (context) => EventListScreen(partnerData: this.widget.partnerData),
       ),
     );
   }

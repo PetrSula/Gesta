@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'importantEvent.dart';
+
 @JsonSerializable()
 class PartnerData {
   String gender;
@@ -7,8 +9,8 @@ class PartnerData {
   String nickname;
   DateTime? nameDay;
   DateTime? anniversary;
-  DateTime? birtDay;
-  DateTime? importantDay;
+  DateTime? birthDay;
+  List<ImportantEvent>? importantEvents;
 
   PartnerData({
     required this.gender,
@@ -16,7 +18,8 @@ class PartnerData {
     required this.nickname,
     required this.nameDay,
     required this.anniversary,
-    required this.importantDay,
+    required this.birthDay,
+    required this.importantEvents,
   });
 
   factory PartnerData.fromJson(Map<String, dynamic> json) =>
@@ -31,8 +34,11 @@ PartnerData _$PartnerDataFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     nickname: json['nickname'] as String,
     nameDay: DateTime.parse(json['nameday'] as String),
+    birthDay: DateTime.parse(json['birthDay'] as String),
     anniversary: DateTime.parse(json['anniversary'] as String),
-    importantDay: DateTime.parse(json['importantDay'] as String),
+    importantEvents: (json['importantEvents'] as List<dynamic>)
+        .map((e) => ImportantEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

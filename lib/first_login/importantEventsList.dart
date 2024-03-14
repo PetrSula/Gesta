@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app_2/models/importantEvent.dart';
 
 class ImportantEventsList extends StatelessWidget {
-  final List<ImportatntEvent> events;
+  final List<ImportantEvent> events;
   final Function(int) onRemoveEvent;
   final Function(int) onEditEvent;
 
@@ -16,9 +16,9 @@ class ImportantEventsList extends StatelessWidget {
       itemBuilder: (context, index) {
         final event = events[index];
         return ListTile(
-          title: Text(event.nameOfEvent),
+          title: Text(event.eventName),
           subtitle: Text(
-              '${event.dateOfEvent.day}/${event.dateOfEvent.month}/${event.dateOfEvent.year}'),
+              '${event.eventDate.day}/${event.eventDate.month}/${event.eventDate.year}'),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
